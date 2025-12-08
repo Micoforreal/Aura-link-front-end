@@ -17,9 +17,12 @@ const nfts = Array(12).fill({
 export const NFTGallery = () => {
   const [activeCategory, setActiveCategory] = useState("kaiso");
 
+
   return (
     <section className="px-6 py-8 bg-background">
+      
       {/* Category Tabs */}
+
       <div className="flex flex-wrap gap-4 mb-6 text-xs">
         {categories.map((cat) => (
           <button
