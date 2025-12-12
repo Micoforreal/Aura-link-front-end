@@ -9,7 +9,7 @@ const tabs = ["PROFILE", "GIGS", "TRACKER"];
 
 export const Tabs = ({ activeTab, onTabChange }: TabsProps) => {
   return (
-    <div className="flex">
+    <div className="flex ">
       {tabs.map((tab) => (
         <button
           key={tab}
