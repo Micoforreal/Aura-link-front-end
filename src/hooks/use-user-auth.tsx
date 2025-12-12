@@ -1,6 +1,7 @@
 // hooks/use-user-auth.ts
 import { useState, useEffect, useCallback } from "react";
 import { useWallet } from "@/hooks/use-wallet";
+import { BASE_URL } from "@/lib/constants";
 
 interface UserProfile {
   address: string;
@@ -16,7 +17,6 @@ export const useUserAuth = () => {
   const [isNewUser, setIsNewUser] = useState(false); // Flag to trigger registration
   const apiEnv = (import.meta as unknown as { env?: Record<string, string> })
     .env;
-  const apiBase = apiEnv?.VITE_API_BASE || "http://localhost:3000";
 
   // Check DB when wallet connects
   useEffect(() => {
@@ -29,9 +29,10 @@ export const useUserAuth = () => {
 
       setIsCheckingUser(true);
       try {
-        const response = await fetch(`${apiBase}/api/users/${account}`);
+        const response = await fetch(`${BASE_URL}/api/users/${account}`);
 
         if (response.ok) {
+          console.log(response)
           const userData = await response.json();
           setUserProfile(userData);
           setIsNewUser(false);
@@ -47,6 +48,7 @@ export const useUserAuth = () => {
       }
     };
 
+
     checkUserParams();
   }, [account]);
 
@@ -59,7 +61,7 @@ export const useUserAuth = () => {
     if (!account) return;
 
     try {
-      const response = await fetch(`${apiBase}/api/users/profile`, {
+      const response = await fetch(`${BASE_URL}/api/users/profile`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

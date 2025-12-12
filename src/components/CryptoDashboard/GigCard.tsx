@@ -1,17 +1,21 @@
 import { User } from "lucide-react";
 import JobApplicationDialog from "./GigApplication";
 import JobApplicantsDialog from "./GigApplicants";
+import { useWallet } from "@/hooks/use-wallet";
 
 interface GigCardProps {
   id: number;
   status: string;
+  employer: string;
   description: string;
+  
   price: number;
   biddersCount?: number;
 }
 
-export const GigCard = ({ id, status, description, price, biddersCount = 8 }: GigCardProps) => {
+export const GigCard = ({ id, status, description, price, biddersCount = 8, employer }: GigCardProps) => {
   const bidders = Array.from({ length: biddersCount }, (_, i) => i);
+  const {account} = useWallet()
 
   const statusColors: Record<string, string> = {
     OPEN: "bg-[#22C55E]",
@@ -41,6 +45,7 @@ export const GigCard = ({ id, status, description, price, biddersCount = 8 }: Gi
           </span>
           <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
             {description}
+   
           </p>
         </div>
 
@@ -73,7 +78,7 @@ export const GigCard = ({ id, status, description, price, biddersCount = 8 }: Gi
         )}
 
         {/* Token */}
-        <div className="text-xl font-semibold text-foreground"> {status == "You Posted" ? (<JobApplicantsDialog id={id} />) : (<JobApplicationDialog id={id} />)}
+        <div className="text-xl font-semibold text-foreground"> {employer?.toLowerCase() === account?.toLowerCase() ? (<JobApplicantsDialog id={id} />) : (<JobApplicationDialog id={id} />)}
 
         </div>
       </div>
